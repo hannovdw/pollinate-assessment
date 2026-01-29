@@ -1,6 +1,12 @@
 spring:
   application:
     name: challenge
+  # Add this datasource block
+  datasource:
+    url: jdbc:h2:mem:orderdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
   security:
     user:
       name: admin
@@ -10,6 +16,7 @@ spring:
       enabled: true
       path: /h2-console
 management:
+  # management should be a top-level property, not under spring
   endpoints:
     web:
       exposure:
