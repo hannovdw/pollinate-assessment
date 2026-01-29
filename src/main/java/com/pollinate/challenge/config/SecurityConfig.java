@@ -14,7 +14,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChain(HttpSecurity http) {
     http
         // Disable CSRF for local development/testing with H2 and Postman
         .csrf(AbstractHttpConfigurer::disable)
@@ -23,23 +23,23 @@ public class SecurityConfig {
         .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 
         .authorizeHttpRequests(auth -> auth
-            // 1. Permit Swagger UI and OpenAPI Docs (Requirement 7)
+            // 1. Permit Swagger UI and OpenAPI Docs
             .requestMatchers(
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html"
             ).permitAll()
 
-            // 2. Permit H2 Console for verification (Requirement 2)
+            // Permit H2 Console for verification
             .requestMatchers("/h2-console/**").permitAll()
 
             // Allow Actuator health and info endpoints
             .requestMatchers("/actuator/health", "/actuator/info").permitAll()
 
-            // 3. All other endpoints require authentication (Requirement 5)
+            // All other endpoints require authentication
             .anyRequest().authenticated()
         )
-        // Use Basic Auth (Requirement 5)
+        // Use Basic Auth
         .httpBasic(Customizer.withDefaults());
 
     return http.build();
