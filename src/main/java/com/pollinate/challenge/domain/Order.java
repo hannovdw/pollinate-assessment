@@ -21,8 +21,10 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "orders") // "ORDER" is a reserved SQL keyword
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Order {
   @Id
@@ -41,6 +43,7 @@ public class Order {
       joinColumns = @JoinColumn(name = "order_id"),
       inverseJoinColumns = @JoinColumn(name = "product_id")
   )
+
   private List<Product> products;
 
   @PrePersist
